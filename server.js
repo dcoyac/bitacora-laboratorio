@@ -49,6 +49,8 @@ function initDatabase() {
     }
     if (row && row.count === 0) {
       const equiposIniciales = [
+        ['UV', 'Equipo de luz ultravioleta para esterilización', 'Sala A', 'disponible'],
+        ['Laser', 'Equipo láser para corte y grabado', 'Sala B', 'disponible'],
         ['Microscopio Óptico', 'Microscopio binocular con aumento 40x-1000x', 'Sala A', 'disponible'],
         ['Centrífuga', 'Centrífuga de mesa para tubos de 15ml y 50ml', 'Sala B', 'disponible'],
         ['Espectrofotómetro', 'Espectrofotómetro UV-Vis', 'Sala A', 'disponible'],
@@ -61,7 +63,7 @@ function initDatabase() {
         stmt.run(equipo);
       });
       stmt.finalize();
-      console.log('Equipos iniciales creados');
+      console.log('✓ Equipos iniciales creados (incluyendo UV y Laser)');
     }
   });
 }
