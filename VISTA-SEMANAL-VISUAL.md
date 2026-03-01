@@ -1,0 +1,220 @@
+# 🎨 Visualización de la Vista Semanal
+
+## Interfaz Actual
+
+```
+╔═══════════════════════════════════════════════════════════════════╗
+║                  CALENDARIO SEMANAL DE EQUIPOS                    ║
+╠═══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║  Equipo 1: [Microscopio Óptico ▼]  Equipo 2: [Centrífuga ▼]    ║
+║                                                                   ║
+║  ┌────┐ Solo Equipo 1  ┌────┐ Solo Equipo 2  ┌────┐ Ambos      ║
+║  │ 🔵 │                │ 🟢 │                │ 🟡 │             ║
+║  └────┘                └────┘                └────┘             ║
+║                                                                   ║
+╠═══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║        ┌───────────────────────────────────────────┐            ║
+║        │   ←    23 - 29 de Febrero 2026    →      │            ║
+║        │             [  Hoy  ]                     │            ║
+║        └───────────────────────────────────────────┘            ║
+║                                                                   ║
+╠═══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐ ║
+║  │ DOM │  │ LUN │  │ MAR │  │ MIÉ │  │ JUE │  │ VIE │  │ SÁB │ ║
+║  │  23 │  │  24 │  │  25 │  │  26 │  │  27 │  │  28 │  │  29 │ ║
+║  ├─────┤  ├─────┤  ├─────┤  ├─────┤  ├─────┤  ├─────┤  ├─────┤ ║
+║  │     │  │🟢9:00│  │🟡9:00│  │     │  │🔵10:0│  │🟢14:0│  │     │ ║
+║  │ Sin │  │María│  │Miguel│  │ Sin │  │Diana│  │Elena│  │ Sin │ ║
+║  │even-│  │     │  │     │  │even-│  │     │  │     │  │even-│ ║
+║  │tos  │  │🔵13:0│  │🟡9:30│  │tos  │  │     │  │     │  │tos  │ ║
+║  │     │  │Juan │  │Elena│  │     │  │     │  │     │  │     │ ║
+║  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘ ║
+║                                                                   ║
+╠═══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║  DETALLES: Martes, 25 de Febrero de 2026                        ║
+║                                                                   ║
+║  ⚠️ AMBOS EQUIPOS EN USO SIMULTÁNEO                              ║
+║                                                                   ║
+║  ┌──────────────────────────────────────────────────┐           ║
+║  │ 🟡 Microscopio Óptico [En Uso]                   │           ║
+║  │ Usuario: Miguel Ángel                             │           ║
+║  │ Inicio: 25/02/2026 09:00                          │           ║
+║  │ Propósito: Observación en curso                   │           ║
+║  └──────────────────────────────────────────────────┘           ║
+║                                                                   ║
+║  ┌──────────────────────────────────────────────────┐           ║
+║  │ 🟡 Centrífuga [En Uso]                            │           ║
+║  │ Usuario: Elena Morales                            │           ║
+║  │ Inicio: 25/02/2026 09:30                          │           ║
+║  │ Propósito: Centrifugado de proyecto X            │           ║
+║  └──────────────────────────────────────────────────┘           ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+```
+
+## 🎯 Elementos Clave
+
+### 1. Barra Superior
+- Selectores de equipos (2)
+- Leyenda de colores
+
+### 2. Navegación Central
+```
+  ┌────────────────────────────────┐
+  │  ←   Rango de Fechas    →     │
+  │       [  Hoy  ]                │
+  └────────────────────────────────┘
+```
+- Botones circulares grandes
+- Texto de rango de fechas
+- Botón "Hoy" centrado
+
+### 3. Grid de 7 Días
+```
+┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐
+│ DÍA │ │ DÍA │ │ DÍA │ │ DÍA │ │ DÍA │ │ DÍA │ │ DÍA │
+│  #  │ │  #  │ │  #  │ │  #  │ │  #  │ │  #  │ │  #  │
+├─────┤ ├─────┤ ├─────┤ ├─────┤ ├─────┤ ├─────┤ ├─────┤
+│🔵hora│ │🟢hora│ │🟡hora│ │     │ │🔵hora│ │🟢hora│ │     │
+│user │ │user │ │user │ │ Sin │ │user │ │user │ │ Sin │
+│     │ │     │ │     │ │even │ │     │ │     │ │even │
+└─────┘ └─────┘ └─────┘ └─────┘ └─────┘ └─────┘ └─────┘
+```
+
+### 4. Panel de Detalles
+```
+┌──────────────────────────────────┐
+│ 🟡 Equipo [Estado]                │
+│ Usuario: Nombre                   │
+│ Inicio: fecha hora                │
+│ Propósito: descripción            │
+└──────────────────────────────────┘
+```
+
+## 🎨 Código de Colores en Contexto
+
+### Día Normal
+```
+┌─────────┐
+│  LUNES  │
+│   24    │
+├─────────┤
+│ 🟢 09:00 │ ← Solo Equipo 2
+│  María  │
+│         │
+│ 🔵 13:00 │ ← Solo Equipo 1
+│  Juan   │
+└─────────┘
+```
+
+### Día con Uso Conjunto (⚠️ Importante)
+```
+┌─────────┐
+│ MARTES  │
+│   25    │
+├─────────┤
+│ 🟡 09:00 │ ← Equipo 1
+│ Miguel  │
+│         │
+│ 🟡 09:30 │ ← Equipo 2
+│  Elena  │  ⚠️ AMBOS EN USO
+└─────────┘
+```
+
+### Día Sin Eventos
+```
+┌─────────┐
+│ MIÉRCOL │
+│   26    │
+├─────────┤
+│         │
+│   Sin   │
+│ eventos │
+│         │
+└─────────┘
+```
+
+## 📱 Adaptación Móvil
+
+En dispositivos móviles, las tarjetas se apilan verticalmente:
+
+```
+╔═══════════════════════╗
+║   ←  Semana  →       ║
+║     [Hoy]            ║
+╠═══════════════════════╣
+║ ┌───────────────────┐ ║
+║ │    DOMINGO 23     │ ║
+║ │   Sin eventos     │ ║
+║ └───────────────────┘ ║
+║ ┌───────────────────┐ ║
+║ │    LUNES 24       │ ║
+║ │ 🟢 09:00 María    │ ║
+║ │ 🔵 13:00 Juan     │ ║
+║ └───────────────────┘ ║
+║ ┌───────────────────┐ ║
+║ │    MARTES 25      │ ║
+║ │ 🟡 09:00 Miguel   │ ║
+║ │ 🟡 09:30 Elena    │ ║
+║ └───────────────────┘ ║
+║        ...            ║
+╚═══════════════════════╝
+```
+
+## 🎯 Flujo de Usuario
+
+```
+1. Usuario abre calendario
+         ↓
+2. Selecciona Equipo 1 y Equipo 2
+         ↓
+3. Ve semana actual con 7 días
+         ↓
+4. Identifica día con eventos naranjas (uso conjunto)
+         ↓
+5. Click en ese día
+         ↓
+6. Ve detalles completos abajo
+         ↓
+7. Click en → para ver semana siguiente
+         ↓
+8. Repite para planificar
+```
+
+## 💡 Casos de Uso Visualizados
+
+### Caso 1: Encontrar día libre para ambos equipos
+```
+Objetivo: Usar ambos equipos juntos sin conflicto
+
+DOM  LUN  MAR  MIE  JUE  VIE  SAB
+ 23   24   25   26   27   28   29
+ ✅   ❌   ❌   ✅   ❌   ❌   ✅
+      🟡   🟡        🔵   🟢
+
+Resultado: Programar en Domingo 23, Miércoles 26 o Sábado 29
+```
+
+### Caso 2: Verificar disponibilidad de un equipo específico
+```
+Objetivo: Saber cuándo está libre el Microscopio
+
+Solo buscar días sin 🔵 o 🟡
+
+DOM  LUN  MAR  MIE  JUE  VIE  SAB
+ 23   24   25   26   27   28   29
+ ✅   ❌   ❌   ✅   ❌   ✅   ✅
+      🔵   🟡        🔵
+
+Resultado: Libre Dom 23, Mié 26, Vie 28, Sáb 29
+```
+
+---
+
+**✨ Vista Semanal: Simple, Clara y Efectiva**
+
+📅 http://localhost:3001 → Pestaña "Calendario"

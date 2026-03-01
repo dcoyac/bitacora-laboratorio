@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Laboratorio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Bitácora de Equipos de Laboratorio</h1>
+            <p class="subtitle">Sistema de registro y seguimiento</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" onclick="showTab('usar-equipo')">Usar Equipo</button>
+            <button class="tab-btn" onclick="showTab('equipos-en-uso')">Equipos en Uso</button>
+            <button class="tab-btn" onclick="showTab('calendario')">Calendario</button>
+            <button class="tab-btn" onclick="showTab('historial')">Historial</button>
+            <button class="tab-btn" onclick="showTab('gestionar-equipos')">Gestionar Equipos</button>
+        </nav>
+
+        <!-- Tab: Usar Equipo -->
+        <div id="usar-equipo" class="tab-content active">
+            <div class="card">
+                <h2>Iniciar Uso de Equipo</h2>
+                <form id="form-iniciar-uso">
+                    <div class="form-group">
+                        <label for="equipo-select">Equipo:</label>
+                        <select id="equipo-select" required>
+                            <option value="">Selecciona un equipo...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario-input">Usuario:</label>
+                        <input type="text" id="usuario-input" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proposito-input">Propósito del uso:</label>
+                        <textarea id="proposito-input" placeholder="Describe brevemente el uso que darás al equipo" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Uso</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab: Equipos en Uso -->
+        <div id="equipos-en-uso" class="tab-content">
+            <div class="card">
+                <h2>Equipos Actualmente en Uso</h2>
+                <div id="equipos-activos-list"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Calendario -->
+        <div id="calendario" class="tab-content">
+            <div class="card">
+                <h2>Calendario Semanal de Equipos</h2>
+                
+                <div class="calendar-controls">
+                    <div class="equipment-selection">
+                        <div class="form-group">
+                            <label for="calendar-equipo1">Equipo 1:</label>
+                            <select id="calendar-equipo1">
+                                <option value="">Selecciona un equipo...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="calendar-equipo2">Equipo 2:</label>
+                            <select id="calendar-equipo2">
+                                <option value="">Selecciona un equipo...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #3b82f6;"></span>
+                            <span>Solo Equipo 1</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #10b981;"></span>
+                            <span>Solo Equipo 2</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background: #f59e0b;"></span>
+                            <span>Ambos en conjunto</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-navigation">
+                    <button class="btn-week-nav" onclick="cambiarSemana(-1)" title="Semana anterior">
+                        ← 
+                    </button>
+                    <div class="week-info">
+                        <h3 id="week-range"></h3>
+                        <button class="btn-today" onclick="irHoy()">Hoy</button>
+                    </div>
+                    <button class="btn-week-nav" onclick="cambiarSemana(1)" title="Semana siguiente">
+                        →
+                    </button>
+                </div>
+
+                <div id="calendar-week-grid" class="calendar-week-grid"></div>
+
+                <div id="calendar-events-detail" class="calendar-events-detail"></div>
+            </div>
+        </div>
+
+        <!-- Tab: Historial -->
+        <div id="historial" class="tab-content">
+            <div class="card">
+                <h2>Historial de Registros</h2>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Buscar por usuario, equipo o propósito...">
+                </div>
+                <div class="table-container">
+                    <table id="historial-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Equipo</th>
+                                <th>Usuario</th>
+                                <th>Propósito</th>
+                                <th>Observaciones</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historial-tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Gestionar Equipos -->
+        <div id="gestionar-equipos" class="tab-content">
+            <div class="card">
+                <h2>Agregar Nuevo Equipo</h2>
+                <form id="form-agregar-equipo">
+                    <div class="form-group">
+                        <label for="nombre-equipo">Nombre del equipo:</label>
+                        <input type="text" id="nombre-equipo" placeholder="Ej: Microscopio Electrónico" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion-equipo">Descripción:</label>
+                        <textarea id="descripcion-equipo" placeholder="Características y especificaciones" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ubicacion-equipo">Ubicación:</label>
+                        <input type="text" id="ubicacion-equipo" placeholder="Ej: Sala A, Mesa 3" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Equipo</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>Lista de Equipos</h2>
+                <div id="equipos-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
