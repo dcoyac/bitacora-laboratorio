@@ -21,50 +21,54 @@ const db = new sqlite3.Database('./bitacora.db', (err) => {
 });
 
 function initDatabase() {
-  db.run(`CREATE TABLE IF NOT EXISTS equipos (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    descripcion TEXT,
-    ubicacion TEXT,
-    estado TEXT DEFAULT 'disponible',
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
-  )`);
+  // Crear tablas primero
+  db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS equipos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nombre TEXT NOT NULL,
+      descripcion TEXT,
+      ubicacion TEXT,
+      estado TEXT DEFAULT 'disponible',
+      fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`);
 
-  db.run(`CREATE TABLE IF NOT EXISTS registros (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    equipo_id INTEGER NOT NULL,
-    usuario TEXT NOT NULL,
-    fecha_inicio DATETIME NOT NULL,
-    fecha_fin DATETIME,
-    proposito TEXT,
-    observaciones TEXT,
-    estado TEXT DEFAULT 'en_uso',
-    FOREIGN KEY (equipo_id) REFERENCES equipos (id)
-  )`);
+    db.run(`CREATE TABLE IF NOT EXISTS registros (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      equipo_id INTEGER NOT NULL,
+      usuario TEXT NOT NULL,
+      fecha_inicio DATETIME NOT NULL,
+      fecha_fin DATETIME,
+      proposito TEXT,
+      observaciones TEXT,
+      estado TEXT DEFAULT 'en_uso',
+      FOREIGN KEY (equipo_id) REFERENCES equipos (id)
+    )`);
 
-  db.get("SELECT COUNT(*) as count FROM equipos", (err, row) => {
-    if (err) {
-      console.error('Error al verificar equipos:', err);
-      return;
-    }
-    if (row && row.count === 0) {
-      const equiposIniciales = [
-        ['UV', 'Equipo de luz ultravioleta para esterilización', 'Sala A', 'disponible'],
-        ['Laser', 'Equipo láser para corte y grabado', 'Sala B', 'disponible'],
-        ['Microscopio Óptico', 'Microscopio binocular con aumento 40x-1000x', 'Sala A', 'disponible'],
-        ['Centrífuga', 'Centrífuga de mesa para tubos de 15ml y 50ml', 'Sala B', 'disponible'],
-        ['Espectrofotómetro', 'Espectrofotómetro UV-Vis', 'Sala A', 'disponible'],
-        ['Balanza Analítica', 'Precisión 0.0001g', 'Sala C', 'disponible'],
-        ['PCR', 'Termociclador para PCR', 'Sala B', 'disponible']
-      ];
+    // Ahora verificar e insertar datos
+    db.get("SELECT COUNT(*) as count FROM equipos", (err, row) => {
+      if (err) {
+        console.error('Error al verificar equipos:', err);
+        return;
+      }
+      if (row && row.count === 0) {
+        const equiposIniciales = [
+          ['UV', 'Equipo de luz ultravioleta para esterilización', 'Sala A', 'disponible'],
+          ['Laser', 'Equipo láser para corte y grabado', 'Sala B', 'disponible'],
+          ['Microscopio Óptico', 'Microscopio binocular con aumento 40x-1000x', 'Sala A', 'disponible'],
+          ['Centrífuga', 'Centrífuga de mesa para tubos de 15ml y 50ml', 'Sala B', 'disponible'],
+          ['Espectrofotómetro', 'Espectrofotómetro UV-Vis', 'Sala A', 'disponible'],
+          ['Balanza Analítica', 'Precisión 0.0001g', 'Sala C', 'disponible'],
+          ['PCR', 'Termociclador para PCR', 'Sala B', 'disponible']
+        ];
 
-      const stmt = db.prepare("INSERT INTO equipos (nombre, descripcion, ubicacion, estado) VALUES (?, ?, ?, ?)");
-      equiposIniciales.forEach(equipo => {
-        stmt.run(equipo);
-      });
-      stmt.finalize();
-      console.log('✓ Equipos iniciales creados (incluyendo UV y Laser)');
-    }
+        const stmt = db.prepare("INSERT INTO equipos (nombre, descripcion, ubicacion, estado) VALUES (?, ?, ?, ?)");
+        equiposIniciales.forEach(equipo => {
+          stmt.run(equipo);
+        });
+        stmt.finalize();
+        console.log('✓ Equipos iniciales creados (incluyendo UV y Laser)');
+      }
+    });
   });
 }
 
